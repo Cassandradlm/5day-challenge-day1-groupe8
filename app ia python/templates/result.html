@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats de l'analyse</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            text-align: center;
+        }
+        .image-container {
+            margin-bottom: 20px;
+        }
+        img {
+            max-width: 80%;
+            height: auto;
+        }
+        .conclusion {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="{{ image_path }}" alt="Uploaded Image">
+        </div>
+        <div class="conclusion">
+            {% if predictions %}
+                <p>Les prédictions sont les suivantes :</p>
+                <ul>
+                    {% for prediction in predictions %}
+                        {% if prediction.probability * 100 > 50 %}
+                            <li>{{ prediction.tagName }} : {{ '%.2f' % (prediction.probability * 100) }}%</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <p>Merci pour l'analyse !</p>
+            {% else %}
+                <p>Aucune prédiction n'a été retournée.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
